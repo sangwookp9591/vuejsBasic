@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!--<p id="abc1234" class="text-blue">{{ num }}</p>//id를 일반적으로 data로 관리할때 이런식으로 하는데..-->
+        <p v-bind:id="uuid" v-bind:class="name">{{ num }}</p><!--uuid를 화면의 특정 tag의 id로 연결하기 위해서는 v-bind를 쓴다-->
+        <!--bind라는 말 자체가 직관적으로 연결하겠다는 뜻이다.-->
+        <!--어떤걸 연결하냐 하면은 .. id를 bind할건데 아래에서 관리하는 uuid를  binding 할것이다.-->
+        <!--id라는 속성에는 data에서 관리하는 특정 속성이 연결된다.-->
+
+        <p>{{ doubleNum }}</p>
+        <div v-if="loading"><!--v-가 붙는순간 data 속성이나 computed 속성을 줄거라는 의미-->
+            Loading...(로그인 중)
+        </div>
+        <div v-else>
+            test user login has been logged in(로딩 성공)
+        </div>
+        <div v-show="loading">
+            Loading...
+        </div>
+        <!--if와 show 의 차이점 
+        if - false로 취하게 되면 dom에서 아에 삭제
+        show - dom에서 삭제되지 않고  display:none이랑 같은 차이-->
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                num: 10,
+                uuid: 'abc1234', //id를 일반적으로 data로 관리할때 이런식으로 하는데..
+                name: 'text-blue',
+                loaading: true
+            },
+            computed: function(){
+                return num * 2;
+            }
+        });
+
+    </script>
+</body>
+</html>

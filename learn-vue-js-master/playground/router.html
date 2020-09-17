@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!--페이지 url이 이동했을때  url에따라서 뿌려지는 영역  router-view -->
+       <!--vie instance에 router를 연결해야지 사용가능-->
+        <!--router-view만 설정하였을경우는 해당 router-view영역을 보기 위해서는
+                url에 직접 path를입력해야한다. 하지만 이것은 개발자 관점이기떄문에
+                가능하다 사용자는 화면에서 이동하는 link를 제공해줘야한다.-->
+        <ruter-link to="/login">Login</ruter-link><!--router 에서 페이지를 이동하기위한 링크 태그-->
+        <!--= href="/login" -->
+        <ruter-link to="/main">Main</ruter-link>
+        <!--router-link*2-->
+
+       <router-view></router-view>
+
+    </div>
+
+
+
+    <!--순서는 무조건 뷰라이브러리가 먼저나와야야함.-->
+    <!--뷰라우터가 동작하기 위해서는 뷰의 라이브러라기 있어야함.-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!--vue router CDN 방식으설치-->
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+   
+    <script>    
+            /*
+            VUE ROUTER
+            1.뷰라우터는 뷰 라이브러리를 이용하여 싱글페이지 애플리케이션을 구현할떄 사용하는 라이브러리입니다.
+            2.페이지간 이동하는 기능을 구현할때 사용하는 라이브러리이다.
+            
+            프로젝트에 뷰라우터를 설치하는 방법은 CDN  방식과  NPM  방식 2가지가 있습니다.
+             https://unpkg.com/vue-router/dist/vue-router.js
+
+            */
+           var LoginComponent = {
+               template: '<div>Login</div>'
+           }
+           var MainComponent = {
+               template: '<div>main</div>'
+           }
+           var router = new VueRouter({
+            //페이지의 라우팅 정보 
+            // (어떤 url로 이동했을땨 언떤 페이지가 보여질지에 대한 정보가 routes에 페이지의 갯수만 큼 배열로 담김)
+            routes:[
+                //로그인 페이지 정ㅂ
+                {
+                    //페이지의 url 이름
+                    path: '/login',
+                    //해당 url 에서 표시될 컴포넌트
+                    //name: 'login' name 이없게되면 link로 화면이동할때  Anonymous라고 뜨게됨
+                    //mode: 'history' html# 해쉬값 없애기 위해 사용(history api 사용 x)
+                    component: LoginComponent
+                },
+                //main 페이지 정보
+                {
+                    path: 'main',
+                    component: MainComponent
+                }
+            ]
+           });
+           
+           new Vue({
+               el: '#app', //#app에 instance 정의
+               //vue router 를 vue instance 에 연결하여 사용할 수 있는 형태로 만듦
+               router: router // router 속성에 router 변수를 설정(vue router를 인스턴스에 연결)
+           });
+
+
+              //참고 인프런  장기효 (캡틴판교) 강사님
+    </script>
+</body>
+</html> 

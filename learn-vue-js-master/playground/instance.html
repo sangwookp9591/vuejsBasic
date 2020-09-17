@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!--el:'#app'을하는순간 이안에서부터 vue의 기능과 속성이 유효해짐
+        new Vue()로 만든 인스턴스를 꼭특정 테그에 붙여줘야 vue를 사용할 수 있음 -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        //방법 2
+        //Vue공식문서에서 나오는 코드들이라던지 가독성면에서 
+        //별도로 변수로 구분하기 보단 객체 리터럴(객체를 통쨰로 넣는것)
+
+
+        var vm =  new Vue({
+            el: '#app',  //body tag안에서 app이라는id를 찾아 인스턴스를 붙이겠다는의미
+            //인스턴스를 붙여야지 div안에서 vue의 기능과 속성들이 유효해진다.
+            data: {
+                message:'hi'
+            }            
+        });
+        /*
+        instance 에서 사용할 수 있는 속성과 API는 다음과 같다.
+         el :  인스턴가 그려지는 화면의 시작점(특정 HTML 태그)
+         template : 화면에 표시할 요소 (HTML, CSS등)
+         data : 뷰의 반응성(Reactivity)가 반영된 데이터 속성
+         methods :  화면의 동작과 이벤트 로직을 제어하는 메서드
+         created : 뷰의 라이프 사이클과 관련된 속성
+         watch  :  data 에서 정의한 속성이 변화했을 때 추가 동작을 수행할 수 있게 정의하는 속성
+        */
+        //참고 인프런  장기효 (캡틴판교) 강사님
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Axios</title>
+</head>
+<body>
+  <div id="app">
+    <button v-on:click="getData">get user</button>
+    <div>
+      {{ users }}
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        users: []
+      },
+      methods: {
+        getData: function() { 
+          var vm = this;
+          axios.get('https://jsonplaceholder.typicode.com/users/') //test 및 기능 구현 셈플 (10개의  user정보)
+            .then(function(response) { //성공
+              console.log(response);
+              console.log(response.data);
+              vm.users = response.data;
+              //this.users = response.data; 여기서의 this 는 axios 호출시(callback 함수의 this) this랑 다름 
+              //비동기 처리를 했을때 자연스럽게 실행 콘텍스트가 바뀌면서 this에 대한 내용도 바뀜
+                      
+            })
+            .catch(function(error) { //실패
+              console.log(error);
+            });
+        }
+      }
+    })
+
+           /*
+           Axios (엑시오스) 
+
+           1.view에서 제공하는 http 통신 라이브러리
+           2.promise(Javascrpit의 비동기 처리 패턴) 기반의 http 통신라이브러리
+           3.상대적으로 다른 http 통신라이브러리에 비해 문서화가 잘되어 있고 API가 다양하다.
+
+
+           ajax -  비동기적인 웹 에플리케이션 제작
+
+           google ->vue resoource github  검섹 (api 등 호환범위 자세한 설명이 나와있다. instance만들어 쓰는법  error handling ,token 취소, intercpetors)
+           pagekit이라는 team에  vue reousrce라이브러가 공식이였다가
+           vue js의 에반유가 공식으로 사용하지 않고
+           axios 를 사용한다.
+           실제 구현시 셈플들이 vue-resource를 사용하면 안된다.  
+           
+
+           자바스크립트의 비동기 처리 패턴 진화
+           1. callback
+           2. promiise
+           3. porimise _genrator
+           4. async & await
+           
+            Axios 깃헙 주소 https://github.com/axios/axios
+
+            자바스크립트 비동기 처리와 콜백 함수 https://joshua1988.github.io/web-development/javascript/javascript-asynchronous-operation/
+
+            자바스크립트 Promise 이해하기 https://joshua1988.github.io/web-development/javascript/promise-for-beginners/
+            -1. Promise의 필요성
+            프로미스는 주로 서버에서 받아온 데이터를 화면에 표시할 때 사용한다. 일반적으로 웹 어플리케이션을 구현할때
+            서버에서 데이터를 요청하고 받아오기 위해 아래와 같은 API 를 사용한다.
+            $.get('/url  주소/products/1',function(response){
+
+            }); /데이터 하나 보내주세요라는 요청! 
+            여기서 문제점!
+            데이터를 받오기도 전에 마치 데이터를 다 받아온 것 마냥 화면에 데이터를 표시하려고 하면 오류가 발생하거나 빈화면이뜸
+            이문제를 해결하는 방법중 하나가 프로미스.
+
+            -2. Promise code basic
+            프로미스가 어떻게 동작하는지 이해하기 위해 예제코드 참조
+            ajax
+
+            function getData(callbackFunc) {
+              $.get('url 주소/products/1', function(response) {
+                callbackFunc(response); // 서버에서 받은 데이터 response를 callbackFunc() 함수에 넘겨줌
+              });
+            }
+
+            getData(function(tableData) {
+              console.log(tableData); // $.get()의 response 값이 tableData에 전달됨
+            });
+            
+            promise
+
+            function getData(callback) {
+              // new Promise() 추가
+              return new Promise(function(resolve, reject) {
+                $.get('url 주소/products/1', function(response) {
+                  // 데이터를 받으면 resolve() 호출
+                  resolve(response);
+                });
+              });
+            }
+
+            // getData()의 실행이 끝나면 호출되는 then()
+            getData().then(function(tableData) {
+              // resolve()의 결과 값이 여기로 전달됨
+              console.log(tableData); // $.get()의 reponse 값이 tableData에 전달됨
+            });
+            
+
+            3.Promise의 3가지 상태
+
+            프로미스를 사용할 때 알아야 하는 가장 기본적인 개념이 바로 프로미스의 상태(states)입니다. 
+            여기서 말하는 상태란 프로미스의 처리 과정을 의미합니다.
+             new Promise()로 프로미스를 생성하고 종료될 때까지 3가지 상태를 갖습니다.
+
+            1. Pending(대기) : 비동기 처리 로직이 아직 완료되지 않은 상태
+            - new Promise();
+            - new Promise() 메서드를 호출할 때 콜백 함수를 선언할 수 있고, 콜백 함수의 인자는 resolve, reject입니다.
+            - new Promise(function(resole,reject){
+
+            });
+
+            2. Fulfilled(이행) : 비동기 처리가 완료되어 프로미스가 결과 값을 반환해준 상태
+            -여기서 콜백 함수의 인자 resolve를 아래와 같이 실행하면 이행(Fulfilled) 상태가 됩니다
+            new Promise(function(resolve, reject) {
+              resolve();
+            });
+             -그리고 이행 (완료)상태가 되면 아래와 같이 then()을 이용하여 처리 결과 값을 받을 수 있습니다.
+
+            function getData() {
+              return new Promise(function(resolve, reject) {
+                var data = 100;
+                resolve(data);
+              });
+            }
+
+            // resolve()의 결과 값 data를 resolvedData로 받음
+            getData().then(function(resolvedData) {
+              console.log(resolvedData); // 100
+            });
+
+            3.Rejected(실패) : 비동기 처리가 실패하거나 오류가 발생한 상태
+            - reject를 아래와 같이 호출하면 실패(Rejected) 상태가 됩니다.
+            new Promise(function(resolve, reject) {
+              reject();
+            });  
+            - 그리고, 실패 상태가 되면 실패한 이유(실패 처리의 결과 값)를 catch()로 받을 수 있습니다.
+            function getData() {
+              return new Promise(function(resolve, reject) {
+                reject(new Error("Request is failed"));
+              });
+            }
+
+            // reject()의 결과 값 Error를 err에 받음
+            getData().then().catch(function(err) {
+              console.log(err); // Error: Request is failed
+            });
+
+
+
+            자바스크립트 async와 await https://joshua1988.github.io/web-development/javascript/js-async-await/
+ 
+
+
+                          
+            프런트엔드 개발자가 알아야 하는 HTTP 프로토콜 -  https://joshua1988.github.io/web-development/http-part1/
+
+            구글 크롬 개발자 도구 공식 문서 -  https://developers.google.com/web/tools/chrome-devtools/
+            
+              //참고 인프런  장기효 (캡틴판교) 강사님 
+           */
+  </script>
+</body>
+</html>

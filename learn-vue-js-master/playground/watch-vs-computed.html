@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    {{ num }}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    
+    new Vue({
+      el: '#app',
+      data: {
+        num: 10
+      }, 
+      computed: { // 자연스럽게 vue 내부에서 계산을 하는 속성 데이터의 의존성
+      //단순한 값에 대한 계산  단순 텍스트 연산 or validation
+        doubleNum: function() {
+          return this.num * 2;
+        }
+      },
+      watch: {//num이 바꼇을때 이벤트 발생 
+        //대부분 매번 실행하기 부담스러운 무거운 로직에 사용한다.
+        //ex) num가 들어왓을때  num값에따라서 다시 동작하는 로직 수행.
+        num: function(newValue, oldValue) { //watch의 기본적 인자  newValue(갱신값), oldValue(이전값)
+          this.fetchUserByNumber(newValue);
+        }
+      },
+      methods: {
+        fetchUserByNumber: function(num) {
+          // console.log(num);
+          axios.get(num);
+        }
+      }
+    });
+    /*watch vs computed
+    
+    
+      웬만해선  computed 를 쓰고  watch보다는 computed 를 쓰는 걸 선호
+       computed - > 내부적인  캐시 튜닝이 되어있음.
+    
+    
+    */
+  </script>
+</body>
+</html>

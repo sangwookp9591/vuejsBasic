@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!--<app-header v-bind:프롭스 속성 이름="상위 컴포넌트의 데이터 이름"></app-header> 컴포넌트 태그에 표현-->
+        <app-header v-bind:propsdata="message"></app-header>
+        <app-content v-bind:propsdata="num"></app-content>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+              /*컴포넌트 통신 방식
+          뷰 컴포넌트는 각각 고유한 데이터 유효 범위를 갖습니다. 따라서, 컴포넌트 간에 데이터를 주고 받기 위해선 아래와 같은 규칙을 따라야합니다.
+  
+          각각의 컴포넌트는 데이터를 각각 관리한다.
+          데이터를 공유하기위한 방법으로 props(상->하). event(하->상) 전달 방식을 이용해야한다.
+  
+        */
+        var appHeader = {
+            template: '<h1>{{propsdata}}</h1>', //vue js의 데이터 바인딩
+            props: ['propsdata']//하위컴포넌트에 props라는 속성으로 정의한 propsdata !즉  propsdata = message -> propsdata = 'h1' ->root 에서 data가내려온것
+            //root의 message 데이터를 바꿀경우 propsdata의 데이터도 바뀐다  -> reactivity 가 반영된것
+        } 
+        var appContent = {
+            template: '<h1>{{propsdata}}</h1>',
+            props: ['propsdata']
+        }
+
+        new Vue({
+            el: '#app'
+            ,components: {
+                'app-header' : appHeader //컴포넌트 이름 정의
+                ,'app-content': appContent
+            },
+            data: {
+                message: 'h1', //root compoent에서 관리하는 데이터 root 의 데이터이름은  message
+                num :10
+            }
+        });
+    </script>
+
+</body>
+</html>

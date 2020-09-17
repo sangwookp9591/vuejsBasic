@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{num}}</p><!--data속성을 넣으면 데이터가 화면에 반영되서 나온다.-->
+        <app-header v-on:pass="logText"></app-header>
+        <!-- <app-header v-on:하위 컴포넌트에서 발생한 이벤트 이름="상위 컴포넌트의 메서드 이름"></app-header>-->
+        <app-content v-on:increase="increaseNum"></app-content>
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+     /*컴포넌트 통신 방식
+          뷰 컴포넌트는 각각 고유한 데이터 유효 범위를 갖습니다. 따라서, 컴포넌트 간에 데이터를 주고 받기 위해선 아래와 같은 규칙을 따라야합니다.
+  
+          각각의 컴포넌트는 데이터를 각각 관리한다.
+          데이터를 공유하기위한 방법으로 props(상->하). event emit(하->상) 전달 방식을 이용해야한다.
+  
+        */
+            var appHeader = {
+                template: '<button v-on:click="passEvent">click me</button>'
+                ,methods:{
+                    passEvent:function(){
+                        this.$emit('pass'); //click시 pass 라는 이벤트 발생
+                    }
+                }
+            }
+            var appContent={
+                template:'<button v-on:click="addNumber">add</button>',
+                methods:{
+                    addNumber:function(){
+                        this.$emit('increase');
+                    }
+                }
+            }
+            var vm = new Vue({
+                el: '#app',
+                components:{
+                    'app-header' : appHeader,
+                    'app-content': appContent
+                },
+                data: {
+                    num:10 //분명 data안에서 선언했지만 console.log로 객체를 찍어볼 경우 data 밖 레벨로 num 이 나와있음 그래서 this.num -> data.num을 가르킴
+                },
+                methods:{
+                    logText:function(){
+                        console.log('hi');
+                    },
+                    increaseNum:function(){
+                        //data.num+=1;
+                        this.num  = this.num + 1; //methods 안에서 메서드에 속성 함수안에서 this는 해당 데이터의 num을 가리킨다. 
+                        //이벤트가 올라올때마다 this.num +1
+                    }
+                }
+            });
+                    //참고 인프런  장기효 (캡틴판교) 강사님 
+        </script>
+</body>
+</html>

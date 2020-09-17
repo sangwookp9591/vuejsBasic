@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <app-header v-bind:propsdata = "num"></app-header> <!--데이터를 바꾼것을 propsdata로 받음.-->
+        <!-- <app-header v-bind:프롭스 속성 이름 = "전달 받을 데이터 "></app-header>-->
+        <app-content v-on:pass="deliverNum"></app-content>
+        <!--<app-content v-on:pass="deliverNum(value))"></app-content> 따로 선언하지 않아도  deliverNum 에 암묵적으로 데이터가 넘어온다.-->
+        <!--3. content는 pass라는 props속성 이름으로 event가 발생하면 해당하는 상위컴포넌트(여기서는 root instance )의 메소드 발생-->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+         /*
+         같은 컴포넌트 레벨 간의 통신 방법 
+
+         전달데이터를 event $(emit)을 통해서 상위 컴포넌트로 보낸다음 상위 컴포넌트에서 props 통해 하위 컴포넌트로 전달한다.
+         */
+         /*
+         확인 순서 
+         1. pass event를 통해서 정확하게  app-content 에서 발생되는 지확인
+         2.. root 에 num의 속성이 바꼇는지
+         3. app-header에 propsdata에 10이 들어왔는지 확인한다.
+         */
+        var appHeader ={
+            template: '<div>header : {{num}}</div>',
+            props: ['propsdata']
+        }
+
+        var appContent = {
+            template: '<div>content<button v-on:click="passNum">pass</button></div>' 
+            //2.버튼 클릭시 passNum method 동작  app-content에 데이터 전달 app 
+            ,methods:{
+                passNum: function(){
+                    this.$emit('pass',10); //pass로 받는쪽에 인자 10을 넘김
+                }
+            }
+        }
+        new Vue({ //1. app content의 상위 컴포넌트(instance --root) 에 data 생성
+            el: '#app',
+            data: {
+                num : 10
+            },
+            components:{
+                'app-header':appHeader,
+                'app-content':appContent
+            },
+            methods:{
+                deliverNum : function(value){ //4. 10을 넘겨줌
+                    this.num = value; //5. value =10 num의 값이 10으로 바뀜
+                }
+            }
+        })
+
+              //참고 인프런  장기효 (캡틴판교) 강사님 
+
+    </script>
+</body>
+</html>

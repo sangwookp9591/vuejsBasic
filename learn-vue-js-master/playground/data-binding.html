@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p v-bind:id="uuid" v-bind:class="name">{{ num }}</p>
+    <!-- <p id="abc1234">{{ num }}</p> -->
+    <p>{{ doubleNum }}</p>
+    <div v-if="loading">
+      Loading...
+    </div>
+    <div v-else>
+      test user has been logged in
+    </div>
+    <div v-show="loading">
+      Loading...
+    </div>
+    <!-- TODO: 인풋 박스를 만들고 입력된 값을 p 태그에 출력해보세요 -->
+    <!--vuejs.org 에 가서 검색 (검색 기준 중요)-->
+    <input type="text" v-model="message" placeholder="edit me">
+    <p>{{ message }}</p> 
+    <!--화면에 입력한 값과 데이터가 동기화-->
+  </div>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+/*
+    var input =document.querySelector('input');
+    var input= $('input');
+    vue 가 없을때 접근방식 */
+    new Vue({
+      el: '#app',
+      data: {
+        num: 10,
+        uuid: 'abc1234',
+        name: 'text-blue',
+        loading: true,
+        message: '' 
+      },
+      computed: {
+        doubleNum: function() {
+          return this.num * 2;
+        }
+      }
+    })
+
+
+    /*
+    
+            뷰의 템플릿 문법
+
+            뷰로 화면을 조작하는 방법
+            1. 데이터 바인딩  - 뷰 인스턴스에서 정의한 속성들을 화면에 표시하는 방법
+             Mustache Tag(콧수염 괄호)
+            <div> {{message}}<div>
+            new Vue({
+              data: {
+                message: 'Hello Vue.js'
+              }
+            });
+
+            2. 디렉티브 - 뷰로 화면의 요소를 더 쉽게 조작하기 위한 문법.
+                       - html tag 에서 id class 표준속성을 제외하고  v-라고 붙는것
+             ex) 특정 속성 값에 따라 화면의 영역을 표시하거나 표시하지 않을 수 있다.
+             <div>
+              Hello<span v-if ="show">Vue.js</span>
+             </div>
+             new Vue({
+               data: {
+                 show: false
+               }
+             });
+
+    
+    */
+  </script>
+</body>
+</html>
