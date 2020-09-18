@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+/*
+[Vue ClI 2.x]
+vue init  '프로젝트 템플릿 유형' '프로젝트 폴더 위치'
+vue init webpack-simple '프로젝트 폴더 위치'
+
+[Vue CLI 3.x]
+vue create '프로젝트 폴더 위치'
+
+crtl +shitf +p 
+사용자 설정
+"terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe"
+설정 -bash 로 설정해야 명령어 동작
+vue create vue-cli
+
+cd vue-cli 이동 
+npm run serve 로컬서버실행
+npm - node packeg manager ->package.json에서 devDependencies 라이브러리에 관한 설명을 하고있다.
+npm run에서 serve는
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+에서  vue-cli-service serve 를 줄인것이다.
+
+-npm num serve를 통해서 실행되는 파일은 어떤것인지?
+public folder에  index.html을 실행시킨다.
+
+index.html에서
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    이부분은 빌드된 파일 자동으로 여기에 추가된다는 뜻이다.
+    여기에 추가될 내용들은 실제로 src폴더 하위에 정의해논
+    main.js App.vue 등등의 여러가지 파일들을 종합해여 하나또는 최소한의 파일로 묶어서 그걸 주입해줌
+    내부적으로 웹팩이 돌아가고 있기때문에  웹팩을 학습해야한다!
+
+    import { createApp } from 'vue'
+    import App from './App.vue'
+
+    createApp(App).mount('#app')
+
+
+main.js
+ import { createApp, h } from 'vue'
+ import App from './App.vue' //싱글파일 컴포넌트, 컴포넌트의 내용을 다른파일에서 불러와서 render 를했다
+
+ createApp(App).mount('#app')
+
+// new Vue({
+//     render: h => h(App),
+// }).$mount('#app');
+
+// new Vue({
+//     el: '#app',
+//     render: h => h(App), //render 는  Vue내부적으로 사용하는 함수, 개발자,사용자가사용하는 함수, 기본적으로 template 을 실행했을때  render가 실행됨.
+
+// });
+
+var App = {
+    template: '<div>App</div>''
+}
+ new Vue({
+   render: h => h(App), 
+})
+위와 아래가 같은 의미이다.
+ new Vue({
+   component:{
+       'app': App
+   }
+})
+
+//위와 아래의 역할을 같음.
+
+
+
+*/
+
+    </script>
+</body>
+</html>
