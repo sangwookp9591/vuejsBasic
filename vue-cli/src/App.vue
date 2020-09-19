@@ -1,23 +1,31 @@
 <template>
-  <div><!-- 템플릿이라는 속성은 html element가 최상위 레벨에 하나만 있어야한다. 밑에 추가하면 안되고 그다음부터 안에 추가해야함.-->
-     {{ hi }}
-  </div>
+  <form v-on:submit="submitForm"> <!--폼은 어떤 정보를 전덜하고 넘어가는 특성이 있음.-->
+    <div>
+      <label for="username">ID: </label>
+      <input id="username" type="text" v-model="username"><!--input 에 어던값이 입력될때마다 바로 username에 반영 userame의 내용을 화면에 바로 보여주는 to-a databinding-->
+    </div>
+    <div>
+     <label for="password">PW:</label>
+      <input id="password" type="password" v-model="password">
+    </div>
+    <button type="submit" >login</button> <!--submit이기 때문에 새로고침이된다.-->
+  </form>
 </template>
 
 <script>
-//.vue파일은 컴포넌트를 재사용할 확율이 높고 여러개의 컴포넌트에서 동일한값을 참조하면 안되기때문에 fuucntion을하고 안에서 새객채를 리턴하는 방식으로 사용해야한다.
-/*
-기존방식 
-new Vue({
-  data: {
-    str: 'hi'
-  }
-});
-*/
 export default {
-  data: function() {
-    return  {
-      str: 'hi'
+  data: function(){ //컴포넌트단위로 개발할때는 컴포넌트의 데이터가 참조되어 공유되지 않게 data function에서 새객체를 리턴하는 방식으로 사용
+    return{
+      username: '',
+      password: '',
+    }
+  },
+  methods:{
+    //폼은 어떤 정보를 전덜하고 넘어가는 특성이 있음. 이걸 막기위해서 event라는 인자를받아서
+    
+    submitForm: function(event){
+      event.prventDefault();// 를사용 폼의 이동 새로고침을 막는다.,
+      console.log(this.username, this.password);
     }
   }
 }
